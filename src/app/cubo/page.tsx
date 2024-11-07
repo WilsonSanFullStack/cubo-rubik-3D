@@ -1,10 +1,13 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 export default function Cube() {
   const colors = ["blue", "green", "white", "yellow", "orange", "red"];
   const piecesRef = useRef<HTMLDivElement[]>([]);
   const pivotRef = useRef<HTMLDivElement>(null);
+  const [rotation, setRotation] = useState({ x: -35, y: 135 });
+  const isDragging = useRef(false);
+  const lastMousePosition = useRef({ x: 0, y: 0 });
 
   function mx(i: number, j: number) {
     return (
@@ -50,83 +53,117 @@ export default function Cube() {
   useEffect(() => {
     ensamblarCubo();
   }, []);
-  interface Caras {
-    blue: [];
-    green: [];
-    white: [];
-    yellow: [];
-    orange: [];
-    red: [];
+  const cube = document.getElementsByClassName("piece");
+  // Colores disponibles para cada orientación
+  type Color = "blue" | "green" | "white" | "yellow" | "orange" | "red" | "";
+  // type Ubicacion = "top" | "bottom" | "back" | "front" | "right" | "left";
+  // Orientaciones de cada pieza
+  interface Orientation {
+    front?: Color;
+    back?: Color;
+    left?: Color;
+    right?: Color;
+    top?: Color;
+    bottom?: Color;
   }
-  const caras: Caras = {
-    blue: [],
-    green: [],
-    white: [],
-    yellow: [],
-    orange: [],
-    red: [],
-  }; // Objeto para almacenar las caras del cubo
+
+  // Tipo para una pieza del cubo
+  interface CubePiece {
+    id: string; // el id que identifica a la pieza
+    cp: {
+      front?: Color;
+      back?: Color;
+      left?: Color;
+      right?: Color;
+      top?: Color;
+      bottom?: Color;
+    }; // Colores en cada orientación
+  }
+  let rubik: CubePiece[];
+  const piezas: CubePiece[] = []; // Array para almacenar las piezas en el formato deseado
   useEffect(() => {
-    const cube = document.getElementsByClassName("piece");
-    for (let i = 0; i < cube.length; i++) {
-      const pieza = cube[i].children; // Cada "element" dentro de la pieza
+    for (let x of cube) {
+      const pieza = {
+        id: x.id,
+        cp: {},
+      };
 
-      for (let j = 0; j < pieza.length; j++) {
-        const sticker = pieza[j].children;
+      let n = 0; // Contador de colores por pieza
 
-        // Verificamos si hay un `sticker` con color para cada cara
-        for (let k = 0; k < sticker.length; k++) {
-          colors.forEach((color) => {
-            if (sticker[k].classList.contains(color)) {
-              // Agregamos la pieza actual a la lista de la cara correspondiente
-              caras[color].push(cube[i]);
-            }
-          });
+      // Iteramos sobre cada cara y asignamos el color correspondiente en `cp`
+      Array.from(x.children).forEach((face) => {
+        const orientacion = face.classList[1]; // Orientación de la cara (e.g., 'front', 'left', etc.)
+        const color = face.children[0]?.classList[1]; // Color de la pegatina en esa orientación
+
+        if (color) {
+          pieza.cp[orientacion as Orientation] = color; // Añade la orientación y el color a `cp`
+          n++;
         }
-      }
+      });
+
+      piezas.push(pieza); // Añade la pieza al array `piezas`
     }
 
-    console.log("Caras del cubo identificadas:", caras); // Verifica cada cara con sus piezas correspondientes
-    const rubik = {
-      esquinas: [],
-      centros: [],
-      aristas: [],
+    // Resultado de `piezas`
+  }, []);
+  useEffect(() => {
+    if (piezas !== undefined) {
+      rubik = piezas;
+    }
+    rubik.sort();
+  }, [cube]);
+
+  function handleMouseDown(event: React.MouseEvent) {
+    isDragging.current = true;
+    lastMousePosition.current = { x: event.clientX, y: event.clientY };
+  }
+
+  function handleMouseMove(event: MouseEvent) {
+    if (!isDragging.current) return;
+
+    const deltaX = event.clientX - lastMousePosition.current.x;
+    const deltaY = event.clientY - lastMousePosition.current.y;
+
+    setRotation((prev) => ({
+      x: prev.x - deltaY * 0.5,
+      y: prev.y + deltaX * 0.5,
+    }));
+
+    lastMousePosition.current = { x: event.clientX, y: event.clientY };
+  }
+
+  function handleMouseUp() {
+    isDragging.current = false;
+  }
+
+  useEffect(() => {
+    ensamblarCubo();
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
     };
-    for (let t in caras) {
-      for (let id of caras[t]) {
-        id as HTMLElement;
-        let count = 0;
-        if (id.children.length > 0) {
-          let children = id.children;
-          console.log("children", children.length);
-          for (let x of children) {
-            if (x.children.length) {
-              count++;
-            }
-            console.log(x.children.length, count);
-          }
-        }
+  }, []);
 
-        console.log("id", id.id);
-        console.log(id.id, rubik.centros.includes(id.id));
-        if (count === 3) {
-          Array.from(rubik.esquinas);
-          console.log(rubik.esquinas.map((x) => x.id).includes(id.id));
-          if (!rubik.esquinas.map((x) => x.id).includes(id.id)) {
-            rubik.esquinas.push(id);
-          }
-        } else if (count === 2) {
-          if (!rubik.aristas.map((x) => x.id).includes(id.id)) {
-            rubik.aristas.push(id);
-          }
-        } else if (count === 1) {
-          if (!rubik.centros.map((x) => x.id).includes(id.id)) {
-            rubik.centros.push(id);
-          }
-        }
-      }
-    }
-    console.log(rubik.aristas.length, "aristas, equinas, centros");
+  function rotateRight() {
+    const elementA33 =document.getElementById("piece33")?.children[5]?.children[1].classList[1];
+    const elementA9 =document.getElementById("piece9")?.children[3]?.children[1].classList[1];
+    const elementA17 =document.getElementById("piece17")?.children[4]?.children[1].classList[1];
+    const elementA5 =document.getElementById("piece5")?.children[2]?.children[0].classList[1];
+    const element5 = document.getElementById("piece5")?.children[2]?.children[1];
+    const element33 = document.getElementById("piece33")?.children[5]?.children[1];
+    const element9 = document.getElementById("piece9")?.children[3]?.children[1]
+    const element17 = document.getElementById("piece17")?.children[4]?.children[1]
+    element5!.classList.replace(`${element5?.classList[1]}`, `${elementA33}`);
+    element33!.classList.replace(`${element33?.classList[1]}`, `${elementA9}`);
+    element9!.classList.replace(`${element9?.classList[1]}`, `${elementA17}`);
+    element17!.classList.replace(`${element17?.classList[1]}`, `${elementA5}`);
+  }
+  useEffect(() => {
+    rotateRight();
   }, []);
 
   return (
@@ -136,7 +173,10 @@ export default function Cube() {
           ref={pivotRef}
           className="pivot centered"
           id="pivot"
-          style={{ transform: "rotateX(-35deg) rotateY(135deg)" }}
+          style={{
+            transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`,
+          }}
+          onMouseDown={handleMouseDown}
         >
           <div className="cube" id="cube">
             {[...Array(26)].map((_, i) => (

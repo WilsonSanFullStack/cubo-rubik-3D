@@ -122,21 +122,4 @@ body {
   background-color: #DF0500;
 }/*# sourceMappingURL=style.css.map */
 
-/* @keyframes rotate {
-  0% {
-    transform: rotateX(0deg) rotateY(0deg);
-  }
-  50% {
-    transform: rotateX(180deg) rotateY(180deg);
-  }
-  100% {
-    transform: rotateX(360deg) rotateY(360deg);
-  }
-}
 
-.pivot {
-  width: 0;
-  height: 0;
-  transition: 0.18s;
-  animation: rotate 10s infinite linear;
-} */
