@@ -3,20 +3,21 @@ import { styleText } from "util";
 export default function Home() {
   return (
     <main className="text-slate-400">
-      <h1>Bienvenidos</h1>
-      <h2>Como armar el cubo de rubik 3x3x3</h2>
-      <p>
+      <div className="text-center m-2">
+      <h1 className="text-4xl">Bienvenidos</h1>
+      <h2 className="text-3xl">Como armar el cubo de rubik 3x3x3</h2>
+      <p className="text-justify">
         aqui tendremos una breve explicacion de como se arma el cubo de rubik
         pues este procedimiento consta de varios pasos y diferentes algoritmos
         que vamos a ir viendo.
       </p>
-      <h2>Reconiciendo un cubo</h2>
+      <h2 className="text-xl">Reconiciendo un cubo</h2>
       <p>
         como ya todos sabemos un cubo consta de 6 caras cada una de ellas tiene
         un nombre
       </p>
       <section>
-        <strong className="text-white">Arriba - Up:</strong>{" "}
+        <strong className="text-white text-2xl">Arriba - Up:</strong>{" "}
         <p>
           {" "}
           esta cara la vamos a identificar con el color blanco - white, para
@@ -37,6 +38,7 @@ export default function Home() {
         <strong className="text-orange-500">Atras - Back</strong>{" "}
         <p>esta cara la vamos a identificar con el color Naranjado - Orange</p>
       </section>
+      </div>
     </main>
   );
 }
