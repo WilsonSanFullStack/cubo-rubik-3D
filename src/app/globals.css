@@ -7,7 +7,7 @@ html,
 body {
   height: 100%;
   overflow: hidden;
-  background: radial-gradient(circle, white, rgba(0, 0, 0, 0.5));
+  background: radial-gradient(circle, rgb(54, 37, 37), rgba(0, 0, 0, 0.5));
   background-color: #2F2F31;
   background-blend-mode: overlay;
 }
