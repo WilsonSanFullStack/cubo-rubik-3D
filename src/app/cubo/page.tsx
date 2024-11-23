@@ -1082,31 +1082,31 @@ export default function Cube() {
           S
         </button>
         <button className="w-6 h-6 bg-white m-0.5 font-bold" onClick={LP}>
-          L'
+          L{'\''}
         </button>
         <button className="w-6 h-6 bg-white m-0.5 font-bold" onClick={RP}>
-          R'
+          R{'\''}
         </button>
         <button className="w-6 h-6 bg-white m-0.5 font-bold" onClick={UP}>
-          U'
+          U{'\''}
         </button>
         <button className="w-6 h-6 bg-white m-0.5 font-bold" onClick={DP}>
-          D'
+          D{'\''}
         </button>
         <button className="w-6 h-6 bg-white m-0.5 font-bold" onClick={BP}>
-          B'
+          B{'\''}
         </button>
         <button className="w-6 h-6 bg-white m-0.5 font-bold" onClick={FP}>
-          F'
+          F{'\''}
         </button>
         <button className="w-6 h-6 bg-white m-0.5 font-bold" onClick={MP}>
-          M'
+          M{'\''}
         </button>
         <button className="w-6 h-6 bg-white m-0.5 font-bold" onClick={EP}>
-          E'
+          E{'\''}
         </button>
         <button className="w-6 h-6 bg-white m-0.5 font-bold" onClick={SP}>
-          S'
+          S{'\''}
         </button>
       </section>
       <div className="scene" id="scene">

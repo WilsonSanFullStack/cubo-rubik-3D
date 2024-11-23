@@ -1,4 +1,3 @@
-import { styleText } from "util";
 
 export default function Home() {
   return (
@@ -24,8 +23,8 @@ export default function Home() {
           reducir el algoritmos y no estar escribiendo toda la palabra del
           ingles vamos a escribir solo la primera letra de cada palabra en este
           caso U esta letra o comando movera toda la cara blanca arriba - up y
-          el moviento se hara de derecha a izquierda pero si usamos U' (' = prima lo usaremos mucho en los algoritmos para armar el cubo) entonces
-          se movera de izquierda a derecha. puede ir a la prestaña de cubo y precionar el boton U o U' {" "}
+          el moviento se hara de derecha a izquierda pero si usamos U{'\''} ({'\''} = prima lo usaremos mucho en los algoritmos para armar el cubo) entonces
+          se movera de izquierda a derecha. puede ir a la prestaña de cubo y precionar el boton U o U{'\''} {" "}
         </p>
         <strong className="text-yellow-500">Abajo - Down:</strong>{" "}
         <p> esta cara la vamos identificar con el color amarillo - yellow </p>
