@@ -6,22 +6,17 @@
 html,
 body {
   height: 100%;
-  overflow: hidden;
-  background: radial-gradient(circle, rgb(54, 37, 37), rgba(0, 0, 0, 0.5));
-  background-color: #2F2F31;
+  /* overflow: hidden; */
+  background: radial-gradient(circle, rgb(37, 41, 54), rgba(0, 0, 0, 0.5));
+  background-color: #000000;
   background-blend-mode: overlay;
-}
-
-.credits {
-  width: 100%;
-  top: 90%;
 }
 
 .text {
   text-align: center;
   font-family: Helvetica;
   font-size: 0.8rem;
-  color: grey;
+  color: rgb(255, 255, 255);
   pointer-events: none;
 }
 

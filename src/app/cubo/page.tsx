@@ -1053,7 +1053,7 @@ export default function Cube() {
 
   return (
     <div>
-      <section className="grid grid-cols-9 m-2">
+      <section className="grid grid-cols-9 pt-2 mx-4">
         <button className="w-6 h-6 bg-white m-0.5 font-bold" onClick={L}>
           L
         </button>
